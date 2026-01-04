@@ -4,7 +4,7 @@
 
 -- 🔒 USERID WHITELIST
 -- expiry can be:
---   nil                -> lifetime
+--   nil                -> Never
 --   seconds timestamp  -> OK
 --   milliseconds       -> OK (auto-normalized)
 local ALLOWED_USERS = {
@@ -351,8 +351,8 @@ local function stat(y, text)
 	return t
 end
 
-local statTime = stat(20, "Time Left: ...")
-local statFarm = stat(40, "Farm: OFF")
+local statTime = stat(20, "Expires At: ...")
+local statFarm = stat(40, "Knob Farm: OFF")
 local statUp = stat(60, "Uptime: 0s")
 local statIter = stat(80, "Iterations: 0")
 
@@ -366,12 +366,12 @@ end
 
 task.spawn(function()
 	while authorized do
-		statFarm.Text = "Farm: " .. (farmenabled and "ON" or "OFF")
+		statFarm.Text = "Knob Farm: " .. (farmenabled and "ON" or "OFF")
 		statIter.Text = "Iterations: " .. farmIterations
 		statUp.Text = "Uptime: " .. math.floor(os.clock() - authorizedAt) .. "s"
 
 		if userExpiry == nil then
-			statTime.Text = "Time Left: Lifetime"
+			statTime.Text = "Expires At: Never"
 			statTime.TextColor3 = Color3.fromRGB(52,199,89)
 		else
 			local remaining = userExpiry - os.time()
@@ -384,7 +384,7 @@ task.spawn(function()
 				break
 			end
 
-			statTime.Text = "Time Left: " .. formatTimeLeft(remaining)
+			statTime.Text = "Expires At: " .. formatTimeLeft(remaining)
 			if remaining <= CRITICAL_TIME then
 				statTime.TextColor3 = Color3.fromRGB(255,69,58)
 			elseif remaining <= WARN_TIME then
