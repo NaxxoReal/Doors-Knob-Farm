@@ -14,7 +14,7 @@ local ADMINS = {
 }
 
 -- 📺 Tutorial link
-local TUTORIAL_URL = "https://www.youtube.com/watch?v=BhmzbDAds5U"
+local TUTORIAL_URL = "https://www.youtube.com/watch?v=A2ABud-JtBo"
 
 -- ⏳ Verify cooldown after denial
 local DENY_COOLDOWN = 10
